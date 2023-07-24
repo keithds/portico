@@ -37,9 +37,8 @@ public class LogicalTimeFactoryFactory {
       if (name.equals("")) {
          name = "HLAfloat64Time";
       }
-      Iterator<LogicalTimeFactory> i = ServiceLoader.load( LogicalTimeFactory.class ).iterator();
-      while (i.hasNext()) {
-         LogicalTimeFactory logicalTimeFactory = i.next();
+      ServiceLoader<LogicalTimeFactory> loader = ServiceLoader.load( LogicalTimeFactory.class );
+      for( LogicalTimeFactory logicalTimeFactory : loader ) {
          if (logicalTimeFactory.getName().equals(name)) {
             return logicalTimeFactory;
          }
@@ -49,9 +48,8 @@ public class LogicalTimeFactoryFactory {
 
    public static <T extends LogicalTimeFactory> T getLogicalTimeFactory(Class<T> logicalTimeFactoryClass)
    {
-      Iterator<LogicalTimeFactory> i = ServiceLoader.load( LogicalTimeFactory.class ).iterator();
-      while (i.hasNext()) {
-         LogicalTimeFactory logicalTimeFactory = i.next();
+      ServiceLoader<LogicalTimeFactory> loader = ServiceLoader.load( LogicalTimeFactory.class );
+      for( LogicalTimeFactory logicalTimeFactory : loader ) {
          if (logicalTimeFactoryClass.isInstance(logicalTimeFactory)) {
             return logicalTimeFactoryClass.cast(logicalTimeFactory);
          }
@@ -61,11 +59,10 @@ public class LogicalTimeFactoryFactory {
 
    public static Set<LogicalTimeFactory> getAvailableLogicalTimeFactories()
    {
-      Iterator<LogicalTimeFactory> i = ServiceLoader.load( LogicalTimeFactory.class ).iterator();
+      ServiceLoader<LogicalTimeFactory> loader = ServiceLoader.load( LogicalTimeFactory.class );
       Set<LogicalTimeFactory> factories = new HashSet<LogicalTimeFactory>();
-      while (i.hasNext()) {
-         LogicalTimeFactory logicalTimeFactory = i.next();
-         factories.add(logicalTimeFactory);
+      for( LogicalTimeFactory logicalTimeFactory : loader ) {
+	factories.add(logicalTimeFactory);
       }
       return factories;
    }

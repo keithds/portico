@@ -27,9 +27,8 @@ public class RtiFactoryFactory {
       throws
       RTIinternalError
    {
-      Iterator<RtiFactory> i = ServiceLoader.load( RtiFactory.class ).iterator();
-      while (i.hasNext()) {
-         RtiFactory rtiFactory = i.next();
+      ServiceLoader<RtiFactory> loader = ServiceLoader.load( RtiFactory.class );
+      for (RtiFactory rtiFactory : loader) {
          if (rtiFactory.rtiName().equals(name)) {
             return rtiFactory;
          }
@@ -41,19 +40,18 @@ public class RtiFactoryFactory {
       throws
       RTIinternalError
    {
-      Iterator<RtiFactory> i = ServiceLoader.load( RtiFactory.class ).iterator();
-      if (i.hasNext()) {
-         return i.next();
+      ServiceLoader<RtiFactory> loader = ServiceLoader.load( RtiFactory.class );
+      for (RtiFactory rtiFactory : loader) {
+	return rtiFactory;
       }
       throw new RTIinternalError("Cannot find factory");
    }
 
    public static Set<RtiFactory> getAvailableRtiFactories()
    {
-      Iterator<RtiFactory> i = ServiceLoader.load( RtiFactory.class ).iterator();
+      ServiceLoader<RtiFactory> loader = ServiceLoader.load( RtiFactory.class );
       Set<RtiFactory> factories = new HashSet<RtiFactory>();
-      while (i.hasNext()) {
-         RtiFactory rtiFactory = i.next();
+      for (RtiFactory rtiFactory : loader) {
          factories.add(rtiFactory);
       }
       return factories;
